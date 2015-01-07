@@ -12,17 +12,17 @@ var domain = require('domain');
 var fs = require('fs');
 
 /**
- * expose the app object
+ * expose the omnia object
  **/
 
-module.exports = app = {};
+module.exports = omnia = {};
 
 /**
- * the main app handler
+ * the main omnia handler
  * pass as the handler to http.createServer()
  **/
 
-app.handler = function (req, res) {
+omnia.handler = function (req, res) {
   var parsed = url.parse(req.url, true);
   var query = parsed.query;
   var path = parsed.pathname;
@@ -76,20 +76,20 @@ app.handler = function (req, res) {
  * the object of {method => {path => handler}} functions
  **/
 
-app.handlers = {get: {}, post: {}, put: {}, del: {}};
+omnia.handlers = {get: {}, post: {}, put: {}, del: {}};
 
 /**
- * object for holding app modules and pending modules
+ * object for holding omnia modules and pending modules
  */
 
-app.modules = {};
-app.pending = [];
+omnia.modules = {};
+omnia.pending = [];
 
 /**
  * this objects handles the router functions
  */
 
-app.router = {};
+omnia.router = {};
 
 function parseBody (req, body) {
   try {
@@ -116,11 +116,11 @@ function execHandlers (req, res, path, method) {
 
     param += ('/' + params[i]);
 
-    if (!app.handlers[method][param]) {
+    if (!omnia.handlers[method][param]) {
       continue;
     }
 
-    handler = app.handlers[method][param];
+    handler = omnia.handlers[method][param];
 
     if (handler.totalCount == l-1 || handler.totalCount - handler.optionalCount == l-1) {
       var counter = 0;
@@ -194,15 +194,15 @@ function parseRoute (method, route, fn) {
 
   newRoute = '/' + newRoute.join('/');
 
-  if (app.handlers[method][newRoute]) {
-    app.handlers[method][newRoute].fns.push(fn);
+  if (omnia.handlers[method][newRoute]) {
+    omnia.handlers[method][newRoute].fns.push(fn);
   } else {
     details.totalCount = totalCount;
     details.requiredCount = requiredCount;
     details.optionalCount = optionalCount;
     details.fns.push(fn);
 
-    app.handlers[method][newRoute] = details;
+    omnia.handlers[method][newRoute] = details;
   }
 }
 
@@ -222,7 +222,7 @@ function assign (method) {
 
     parseRoute(method, route, fn);
     return this;
-  }).bind(app.router);
+  }).bind(omnia.router);
 }
 
 /**
@@ -230,26 +230,26 @@ function assign (method) {
  * 
  * example:
  *
- * app.router.get('/user/:name', function (req, res) {
+ * omnia.router.get('/user/:name', function (req, res) {
  *   res.end(req.params.name);
  * });
  *
  **/
 
-app.router.post = assign('post');
-app.router.get = assign('get');
-app.router.put = assign('put');
-app.router.del = assign('del');
+omnia.router.post = assign('post');
+omnia.router.get = assign('get');
+omnia.router.put = assign('put');
+omnia.router.del = assign('del');
 
 /**
  * use node cluster under the hood
  * listen for and handle uncaught exceptions 
  */
 
-app.listen = function (port) {
-  app.register(function (err) {
+omnia.listen = function (port) {
+  register(function (err) {
     if (err) {
-      // app failed to initialize
+      // omnia failed to initialize
       throw new Error(err);
     }
 
@@ -285,7 +285,7 @@ app.listen = function (port) {
       d.add(res);
 
       d.run(function() {
-        app.handler(req, res);
+        omnia.handler(req, res);
       });
     }).listen(port || 5000);
   });
@@ -295,14 +295,14 @@ app.listen = function (port) {
  * keep track of modules definitions and dependencies
  */
 
-app.define = function (name, deps, fn) {
+omnia.define = function (name, deps, fn) {
 
   if ("function" === typeof deps) {
     fn = deps;
     deps = [];
   }
 
-  app.pending.push({
+  omnia.pending.push({
     name: name,
     deps: deps,
     fn: fn
@@ -315,8 +315,8 @@ app.define = function (name, deps, fn) {
  * load modules and dependencies asynchronously
  */
 
-app.register = function (done) {
-  var max = app.pending.length;
+function register (done) {
+  var max = omnia.pending.length;
 
   (function load (index) {
     if (index >= max) {
@@ -324,19 +324,19 @@ app.register = function (done) {
       return;
     }
 
-    var def = app.pending[index];
+    var def = omnia.pending[index];
     var name = def.name;
     var fn = def.fn;
     var deps = {};
 
     def.deps.forEach(function (dep) {
-      if (!app.modules[dep]) {
+      if (!omnia.modules[dep]) {
         throw new Error(dep + " is not a module or is not yet initialized.");
       }
     });
 
-    fn(app, function (module) {
-      app.modules[name] = module;
+    fn(omnia, function (module) {
+      omnia.modules[name] = module;
 
       if (index <= max - 1) {
         load(index + 1);
@@ -350,11 +350,11 @@ app.register = function (done) {
  * use this function to load them from a json
  */
 
-app.initialize = (function (path) {
+omnia.initialize = (function (path) {
   var moduleTree = JSON.parse(fs.readFileSync(path + 'index.json'));
 
   for (var module in moduleTree) {
     this.define(module, moduleTree[module].dependencies, require(path + module));
   }
 
-}).bind(app);
+}).bind(omnia);
