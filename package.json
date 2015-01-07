@@ -1,0 +1,7 @@
+{
+  "name": "omnia",
+  "version": "0.0.1",
+  "description": "A framework for high performance, large-scale Node APIs.",
+  "author": "Matthew Levenstein",
+  "dependencies": {}
+}
