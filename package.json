@@ -1,7 +1,24 @@
 {
   "name": "omnia",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A framework for high performance, large-scale Node APIs.",
-  "author": "Matthew Levenstein",
-  "dependencies": {}
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com-cilix:cilix/omnia.git"
+  },
+  "keywords": [
+    "router",
+    "framework",
+    "modules",
+    "api",
+    "rest",
+    "restful",
+    "app"
+  ],
+  "author": "Matthew Levenstein <matthewlevenstein@gmail.com>",
+  "license": "MIT"
 }
