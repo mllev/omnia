@@ -20,7 +20,7 @@ var omnia = require('omnia');
 var router = omnia.router;
 
 router.get('/hello/:name', function (req, res) {
-res.end("Hello, " + req.params.name + "!");
+  res.end("Hello, " + req.params.name + "!");
 });
 
 omnia.listen(5000);
@@ -33,11 +33,11 @@ var omnia = require('omnia');
 var router = omnia.router;
 
 router.get('/hello/:name', function (req, res) {
-res.end("Hello, " + req.params.name + "!");
+  res.end("Hello, " + req.params.name + "!");
 });
 
 router.put('/hello', function (req, res) {
-res.end("Hello, " + req.body.name + "!");
+  res.end("Hello, " + req.body.name + "!");
 });
 
 omnia.listen(5000);
@@ -48,54 +48,54 @@ Building large Node.js apps is hard. The larger they grow, the more difficult it
 It's quite simple. Create a folder that will contain your modules. Each module is a single file that looks like this.
 ```javascript
 module.exports = function (omnia, register) {
-// module code here
+  // module code here
 };
 ```
 You could, for instance, have 2 modules in your `modules` folder.
 ```javascript
 // dogs
 module.exports = function (omnia, register) {
-var router = omnia.router;
+  var router = omnia.router;
 
-router.put('/dogs/:name', function (req, res) {
-var dogName = req.params.name;
-var dogData = req.body.dogData;
+  router.put('/dogs/:name', function (req, res) {
+    var dogName = req.params.name;
+    var dogData = req.body.dogData;
 
-// add dog to dog database
+    // add dog to dog database
 
-res.end(200);
-});
+    res.end(200);
+  });
 
-register();
+  register();
 };
 ```
 `register()` must be called to register the module with Omnia. 
 ```javascript
 // cats
 module.exports = function (omnia, register) {
-var router = omnia.router;
+  var router = omnia.router;
 
-router.put('/cats/:name', function (req, res) {
-var catName = req.params.name;
-var catData = req.body.catData;
+  router.put('/cats/:name', function (req, res) {
+    var catName = req.params.name;
+    var catData = req.body.catData;
 
-// add cat to cat database
+    // add cat to cat database
 
-res.end(200);
-});
+    res.end(200);
+  });
 
-register();
+  register();
 };
 ```
 You `modules` folder must contain an `index.json` file that looks like this:
 ```json
 {
-"cats": {
-"dependencies": []
-},
-"dogs": {
-"dependencies": []
-}
+  "cats": {
+    "dependencies": []
+  },
+  "dogs": {
+    "dependencies": []
+  }
 }
 ```
 And finally, your main `server.js` (or whatever you typically name this file) will look something like this:
