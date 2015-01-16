@@ -102,7 +102,17 @@ And finally, your main `server.js` (or whatever you typically name this file) wi
 ```javascript
 var omnia = require('omnia');
 
-omnia.initialize(__dirname + '/modules/');
+omnia.initialize(__dirname + '/modules/'); // trailing slash is optional
 
 omnia.listen(5000);
+```
+#### Module Directory Structure
+This describes the above example.
+```sh
+/app
+ |-- server.js
+ |-- app/modules
+      |-- cats.js
+      |-- dogs.js
+      |-- index.json
 ```
