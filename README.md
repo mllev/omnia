@@ -43,7 +43,7 @@ router.put('/hello', function (req, res) {
 omnia.listen(5000);
 ```
 #### Module System
-Building large Node.js apps is hard. The larger they grow, the more difficult it becomes to not throw yourself from your 4th story office window onto the delicious mediteranean food truck below. This is where the module system comes in.
+Building large Node.js apps is hard. The larger they grow, the more difficult it becomes to not throw yourself from your 4th story office window onto the delicious mediterranean food truck below. This is where the module system comes in.
 
 It's quite simple. Create a folder that will contain your modules. Each module is a single file that looks like this.
 ```javascript
