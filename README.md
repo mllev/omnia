@@ -121,7 +121,7 @@ Clustering is built into Omnia. When using environments like Heroku (like we do)
 ```javascript
 omnia.run(5000);
 ```
-Calling this will start your application on all available cores, and will keep at least a single instance alive in the event of a crash or an exception. If you have no need for this, you can simply the Omnia object to `http.createServer()`.
+Calling this will start your application on all available cores, and will keep at least a single instance alive in the event of a crash or an exception. If you have no need for this, you can simply pass the Omnia object to `http.createServer()`.
 ```javascript
 var http = require('http');
 var omnia = require('omnia');
