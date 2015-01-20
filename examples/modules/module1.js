@@ -1,6 +1,7 @@
-module.exports = function (app, register) {
+module.exports = function (omnia, register) {
 
-  var router = app.router;
+  // grab the router
+  var router = omnia.router;
 
   router.get('/users/:name?', function (req, res, next) {
     if (req.params.name === "matt")

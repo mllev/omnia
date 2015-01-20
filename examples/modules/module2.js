@@ -1,5 +1,8 @@
-module.exports = function (app, register) {
-  var module1 = app.modules.module1;
+module.exports = function (omnia, register) {
+
+  // grab the dependencies
+  // by declaring them in the json, they are guaranteed to be initialized
+  var module1 = omnia.modules.module1;
   
   module1.func();
 
