@@ -2,7 +2,7 @@
 
 Omnia is a lightweight, high performance framework for building very large Node.js applications. 
 
-### Core Features
+### Core Features 
 
 * A lightweight router
 * Built in clustering/crash protection
@@ -23,7 +23,7 @@ router.get('/hello/:name', function (req, res) {
   res.end("Hello, " + req.params.name + "!");
 });
 
-omnia.listen(5000);
+omnia.run(5000);
 ```
 #### Router
 As mentioned above, Omnia's router is very similar to Express's. What distinguishes it, however, is its lack of bells and whistles, and its usage of data structures that have more predictable performance. It's more of a lightweight layer on top of vanilla javascript, that aids in the creation of RESTful web services. 
@@ -40,7 +40,7 @@ router.put('/hello', function (req, res) {
   res.end("Hello, " + req.body.name + "!");
 });
 
-omnia.listen(5000);
+omnia.run(5000);
 ```
 #### Module System
 Building large Node.js apps is hard. The larger they grow, the more difficult it becomes to not throw yourself from your 4th story office window onto the delicious mediterranean food truck below. This is where the module system comes in.
@@ -104,7 +104,7 @@ var omnia = require('omnia');
 
 omnia.initialize(__dirname + '/modules/'); // trailing slash is optional
 
-omnia.listen(5000);
+omnia.run(5000);
 ```
 #### Module Directory Structure
 This describes the above example.
@@ -119,12 +119,12 @@ This describes the above example.
 #### Clustering
 Clustering is built into Omnia. When using environments like Heroku (like we do), it's difficult (impossible) to use tools like Forever or PM2.
 ```javascript
-omnia.listen(5000);
+omnia.run(5000);
 ```
-Calling this will start your application on all available cores, and will keep at least a single instance alive in the event of a crash or an exception. If you have no need for this, you can simply pass Omnia's request handler to the `http.createServer()`.
+Calling this will start your application on all available cores, and will keep at least a single instance alive in the event of a crash or an exception. If you have no need for this, you can simply the Omnia object to `http.createServer()`.
 ```javascript
 var http = require('http');
 var omnia = require('omnia');
 
-http.createServer(omnia.handler).listen(5000);
+http.createServer(omnia).listen(5000);
 ```
