@@ -1,6 +1,6 @@
 {
   "name": "omnia",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "A framework for high performance, large-scale Node APIs.",
   "main": "index.js",
   "scripts": {

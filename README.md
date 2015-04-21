@@ -53,24 +53,6 @@ module.exports = function (omnia, register) {
 ```
 You could, for instance, have 2 modules in your `modules` folder.
 ```javascript
-// dogs
-module.exports = function (omnia, register) {
-  var router = omnia.router;
-
-  router.put('/dogs/:name', function (req, res) {
-    var dogName = req.params.name;
-    var dogData = req.body.dogData;
-
-    // add dog to dog database
-
-    res.end(200);
-  });
-
-  register();
-};
-```
-`register()` must be called to register the module with Omnia. 
-```javascript
 // cats
 module.exports = function (omnia, register) {
   var router = omnia.router;
@@ -84,6 +66,34 @@ module.exports = function (omnia, register) {
     res.end(200);
   });
 
+  function speak () {
+    console.log("meow!");
+  }
+}
+
+  register({
+    speak: speak
+  });
+};
+```
+`register()` must be called to register the module with Omnia. 
+```javascript
+// dogs
+module.exports = function (omnia, cats, register) {
+  var router = omnia.router;
+
+  router.put('/dogs/:name', function (req, res) {
+    var dogName = req.params.name;
+    var dogData = req.body.dogData;
+
+    // add dog to dog database
+
+    res.end(200);
+  });
+
+  // access to dependencies
+  cats.speak();
+
   register();
 };
 ```
@@ -94,7 +104,7 @@ You `modules` folder must contain an `index.json` file that looks like this:
     "dependencies": []
   },
   "dogs": {
-    "dependencies": []
+    "dependencies": ["cats"]
   }
 }
 ```
