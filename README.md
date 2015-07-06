@@ -37,7 +37,7 @@ module.exports = function (app, register) {
   function speak () {
     console.log("meow!");
   }
-}
+
 
   register({
     speak: speak
