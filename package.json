@@ -20,5 +20,8 @@
     "app"
   ],
   "author": "Matthew Levenstein <matthewlevenstein@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.13.0"
+  }
 }

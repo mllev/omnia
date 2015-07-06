@@ -3,8 +3,7 @@ var http = require('http');
 var express = require('express');
 var app = express();
 
-omnia.register(app, "app");
+omnia.register("app", app);
 omnia.initialize(__dirname + '/modules/');
 
-//http.createServer(omnia).listen(5000);
-omnia.run(5000);
+omnia.run(app, 5000); 
