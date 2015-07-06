@@ -1,8 +1,8 @@
 {
   "module1": {
-    "dependencies": []
+    "dependencies": ["app"]
   },
   "module2": {
-    "dependencies": ["module1"]
+    "dependencies": ["app", "module1"]
   }
 }
